@@ -13,11 +13,11 @@
         <div id="chat">
 
         </div><br>
-        <input type="text" id="msg"><br>
-        <input type="text" name="" id="username">
-        <button type="submit">Send</button>
-            <tex></tex>
-        </input>
+        <label>Name:</label>
+        <input type="text" name="" id="username"><br>
+        <label>Msg:</label>
+        <input type="text" id="msg" maxlength="500">
+        <button type="submit" onclick="send()">Send</button>
     </div>
 </body>
 <script src="https://cdn.socket.io/4.5.4/socket.io.min.js" integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI" crossorigin="anonymous"></script>
@@ -27,8 +27,28 @@
 
     var socket = io(adressBase);
 
+
+    //socket.on
     socket.on('disconnect', () => {
         console.log('disconnect');
     });
+
+    socket.on('showMsg', (data) => {
+        var chat = document.getElementById('chat');
+        var p = document.createElement('p');
+        p.innerHTML = data.username + ': ' + data.msg;
+        chat.append(p);
+    });
+
+    //functions
+    function send(){
+        var msgField = document.getElementById('msg');
+        var usernameField = document.getElementById('username');
+
+        var msg = msgField.value;
+        var username = usernameField.value;
+
+        socket.emit('msg', {msg: msg, username: username});
+    }
 </script>
 </html>

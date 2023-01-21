@@ -11,7 +11,11 @@ const io = require('socket.io')(http);
 io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log(socket.id + ' disconnected');
-    })
+    });
+
+    socket.on('msg', (data) => {
+        socket.emit('showMsg', data);
+    });
 });
 
 //set view engine
