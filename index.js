@@ -13,8 +13,9 @@ io.on('connection', (socket) => {
         console.log(socket.id + ' disconnected');
     });
 
+    //send global msg
     socket.on('msg', (data) => {
-        socket.emit('showMsg', data);
+        io.emit('showMsg', data);
     });
 });
 
